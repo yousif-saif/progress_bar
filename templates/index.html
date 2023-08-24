@@ -3,48 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Document</title>
 </head>
 <body>
-
-    <h1>hello there</h1>
     
-    <script>
-        async function requestData(i){
-            try{
-                const response = await fetch("http://127.0.0.1:5000/get_data", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({curr_index: i})
-                })
+    <div class="head-div">
+        <div class="circumference">
+            <div class="progress-bar"><p>Loading...</p></div>
 
-                if (!response.ok){
-                    throw new Error(`ohh shit, here we go agian, ${response.status}`)
+        </div>
 
-                }
-
-                const jsonResponse = await response.json()
-                console.log(jsonResponse)
-
-
-            }
-            catch (error) {
-                console.log("Error:", error)
-            }
-        }
-
-
-        async function processRequests() {
-            for (let i = 0; i < 10; i++) {
-                await requestData(i);
-            }
-        }
-
-        processRequests()
-
-    </script>
+    </div>
+    
+    <!-- <script src="{{ url_for('static', filename='js/index.js') }}"></script> -->
 
 </body>
 </html>

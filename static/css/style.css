@@ -1,0 +1,39 @@
+.circumference{
+    width: 50%;
+    background-color: black;
+    color: white;
+    font-family: sans-serif;
+    border-radius: 50px;
+    padding: 10px;
+
+}
+
+.head-div{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 100vh;
+
+}
+
+p{
+    margin-left: 10%;
+}
+
+.progress-bar{
+    margin-right: 100%;
+    background-color: aqua;
+    border-radius: 40px;
+    padding: 2px;
+    animation: loadMore 2s linear forwards;
+}
+
+@keyframes loadMore {
+    from {
+        margin-right: 100%;
+    }
+
+    to{
+        margin-right: 0%;
+    }
+}

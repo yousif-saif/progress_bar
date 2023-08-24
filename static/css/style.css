@@ -25,10 +25,12 @@ p{
     background-color: aqua;
     border-radius: 40px;
     padding: 2px;
-    animation: loadMore 2s linear forwards;
+    font-size: 20px;
+
+    /* animation: loadMore 2s linear forwards; */
 }
 
-@keyframes loadMore {
+/* @keyframes loadMore {
     from {
         margin-right: 100%;
     }
@@ -36,4 +38,4 @@ p{
     to{
         margin-right: 0%;
     }
-}
+} */

@@ -1,3 +1,32 @@
+const buffer = 10
+let lengthOfDataPerOneBuffer = 0
+let receivedDatacount = 0
+
+
+function updateLoadingBar(){
+    const loadBar = document.querySelector(".progress-bar")
+    const totalDataNum = lengthOfDataPerOneBuffer * buffer
+    const numOfAllData = receivedDatacount * lengthOfDataPerOneBuffer
+    const percentageOfReceivedData = (numOfAllData / totalDataNum) * 100
+
+    let marginRightValue = 0
+
+    function animateMarginRight() {
+        marginRightValue -= 20
+        loadBar.style.marginRight = `${100 + marginRightValue}%`
+
+        if (marginRightValue > -100) {
+            setTimeout(animateMarginRight, 50)
+        }
+    }
+
+    // loadBar.style.marginRight = `${percentageOfReceivedData - 90}%`
+
+    animateMarginRight()
+
+}
+
+
 async function requestData(i){
     try{
         const response = await fetch("http://127.0.0.1:5000/get_data", {
@@ -14,7 +43,8 @@ async function requestData(i){
         }
 
         const jsonResponse = await response.json()
-        console.log(jsonResponse)
+        lengthOfDataPerOneBuffer = jsonResponse.length
+        receivedDatacount += 1
 
 
     }
@@ -25,8 +55,13 @@ async function requestData(i){
 
 
 async function processRequests() {
-    for (let i = 0; i < 10; i++) {
-        await requestData(i);
+    for (let i = 0; i < buffer; i++) {
+        await requestData(i)
+
+        if (lengthOfDataPerOneBuffer != 0){
+            updateLoadingBar()
+        }
+
     }
 }
 

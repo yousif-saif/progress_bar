@@ -20,7 +20,7 @@ def main():
     return render_template("index.html")
 
 
-@cache.cached(timeout=60 * 60)
+@cache.cached(timeout=60)
 def load_data():
     with open("MOCK_DATA.json", "r") as f:
         data = json.load(f)
@@ -35,9 +35,15 @@ def get_data():
     buffer = len(data) // 10
 
     l = (curr_index * len(data)) // buffer # i used the butterfly technique in math (i.e 1/buffer = x/len(data))
+    r = l + buffer
 
-    data_to_send = data[l:l + buffer]
+    data_to_send = data[l:r]
 
+
+    percentage_of_data = curr_index * 10
+    print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", percentage_of_data)
+
+    data_to_send.append({"percentage_of_data": percentage_of_data})
 
     return jsonify(data_to_send)
 

@@ -1,29 +1,20 @@
 const buffer = 10
-let lengthOfDataPerOneBuffer = 0
-let receivedDatacount = 0
+const loadingBar = document.querySelector(".progress-bar")
+
+function updateLoadingBar(jsonResponse){
+    const whereShouldStop = 100 - jsonResponse[jsonResponse.length - 1].percentage_of_data
+
+    const marginRightPixels = parseFloat(window.getComputedStyle(loadingBar).marginRight)
+    const parentWidth = parseFloat(window.getComputedStyle(loadingBar.parentElement).width)
+
+    let marginRightPercentage = (marginRightPixels / parentWidth) * 100
 
 
-function updateLoadingBar(){
-    const loadBar = document.querySelector(".progress-bar")
-    const totalDataNum = lengthOfDataPerOneBuffer * buffer
-    const numOfAllData = receivedDatacount * lengthOfDataPerOneBuffer
-    const percentageOfReceivedData = (numOfAllData / totalDataNum) * 100
+    for (let i = 0; i < (marginRightPercentage - whereShouldStop) + buffer; i++){
+        loadingBar.style.marginRight = `${marginRightPercentage - 1}%`
+        marginRightPercentage--
 
-    let marginRightValue = 0
-
-    function animateMarginRight() {
-        marginRightValue -= 20
-        loadBar.style.marginRight = `${100 + marginRightValue}%`
-
-        if (marginRightValue > -100) {
-            setTimeout(animateMarginRight, 50)
-        }
     }
-
-    // loadBar.style.marginRight = `${percentageOfReceivedData - 90}%`
-
-    animateMarginRight()
-
 }
 
 
@@ -43,8 +34,8 @@ async function requestData(i){
         }
 
         const jsonResponse = await response.json()
-        lengthOfDataPerOneBuffer = jsonResponse.length
-        receivedDatacount += 1
+
+        updateLoadingBar(jsonResponse)
 
 
     }
@@ -56,11 +47,7 @@ async function requestData(i){
 
 async function processRequests() {
     for (let i = 0; i < buffer; i++) {
-        await requestData(i)
-
-        if (lengthOfDataPerOneBuffer != 0){
-            updateLoadingBar()
-        }
+        await requestData(i + 1)
 
     }
 }
